@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fixed header offset (80px header + 8px clearance = 88px / 5.5rem) */
+section[id],
+div[id],
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+:root {
+  --background: #0a0a0c;
+  --foreground: #d1d5db;
+  --electric-blue: #0088ff;
+  --electric-blue-hover: #0077e6;
+  --card-bg: #121216;
+  --card-border: rgba(255, 255, 255, 0.08);
+  --accent-purple: #c084fc;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+::selection {
+  background-color: #0088ff;
+  color: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Background grid overlay */
+.bg-grid-overlay {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scroll reveal animations */
+[data-reveal="fade-up"], [data-reveal] {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-reveal="fade-up"].is-in-view, [data-reveal="fade-up"].is-visible,
+[data-reveal].is-in-view, [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Card Hover Physics */
+.portfolio-card-hover, .card-interactive {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  will-change: transform, box-shadow, border-color;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-card-hover:hover, .card-interactive:hover {
+  transform: translateY(-6px) scale(1.012) translateZ(0);
+  border-color: rgba(0, 136, 255, 0.5);
+  box-shadow: 0 16px 40px -10px rgba(0, 136, 255, 0.25),
+              0 0 24px -2px rgba(0, 136, 255, 0.2);
+}
+
+.portfolio-card-hover:active, .card-interactive:active {
+  transform: translateY(-2px) scale(0.99) translateZ(0);
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-interactive .card-image,
+.card-interactive img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-interactive:hover .card-image img,
+.card-interactive:hover img {
+  transform: scale(1.035);
+}
+
+/* CTA Button Physics */
+.cta-glow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease, filter 0.15s ease;
+}
+
+.cta-glow-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(0, 136, 255, 0.45);
+}
+
+.btn-interactive {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 200ms ease-out,
+              box-shadow 200ms ease-out,
+              background-color 200ms ease-out,
+              border-color 200ms ease-out,
+              color 200ms ease-out;
+}
+
+.btn-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(0, 136, 255, 0.4);
+}
+
+.btn-interactive .btn-arrow {
+  display: inline-block;
+  transition: transform 200ms ease-out;
+}
+
+.btn-interactive:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Serif Accent */
+.accent-italic {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  color: #c084fc !important;
+}
+
+/* Project Filter Tabs entrance */
+@keyframes butteryCardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-entrance {
+  animation: butteryCardEntrance 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Hamburger menu transitions */
+.menu-bar {
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+.menu-open .bar-1 {
+  transform: translateY(6px) rotate(45deg);
+}
+.menu-open .bar-2 {
+  opacity: 0;
+}
+.menu-open .bar-3 {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, [data-reveal], [data-reveal="fade-up"], .animate-fade-in {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
